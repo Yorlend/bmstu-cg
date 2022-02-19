@@ -6,12 +6,12 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cg.lab2.InterfaceController">
    <children>
       <VBox>
          <children>
@@ -35,14 +35,14 @@
                         <Insets top="14.0" />
                      </HBox.margin>
                   </Label>
-                  <TextArea fx:id="dxField" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" prefWidth="523.0" promptText="dx" HBox.hgrow="ALWAYS">
+                  <TextField fx:id="dxField" promptText="dx" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="24.0" />
                      </font>
                      <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
-                  </TextArea>
+                  </TextField>
                </children>
             </HBox>
             <HBox prefHeight="49.0" prefWidth="600.0">
@@ -52,17 +52,17 @@
                         <Font size="30.0" />
                      </font>
                      <HBox.margin>
-                        <Insets top="14.0" />
+                        <Insets top="10.0" />
                      </HBox.margin>
                   </Label>
-                  <TextArea fx:id="dyField" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" prefWidth="523.0" promptText="dy" HBox.hgrow="ALWAYS">
+                  <TextField fx:id="dyField" promptText="dy" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="24.0" />
                      </font>
                      <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
-                  </TextArea>
+                  </TextField>
                </children>
             </HBox>
             <ButtonBar>
@@ -81,17 +81,17 @@
                         <Font size="30.0" />
                      </font>
                      <HBox.margin>
-                        <Insets top="14.0" />
+                        <Insets top="10.0" />
                      </HBox.margin>
                   </Label>
-                  <TextArea fx:id="kxField" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" prefWidth="523.0" promptText="kx" HBox.hgrow="ALWAYS">
+                  <TextField fx:id="kxField" promptText="kx" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="24.0" />
                      </font>
                      <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
-                  </TextArea>
+                  </TextField>
                </children>
             </HBox>
             <HBox prefHeight="49.0" prefWidth="600.0">
@@ -101,17 +101,17 @@
                         <Font size="30.0" />
                      </font>
                      <HBox.margin>
-                        <Insets top="14.0" />
+                        <Insets top="10.0" />
                      </HBox.margin>
                   </Label>
-                  <TextArea fx:id="kyField" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" prefWidth="523.0" promptText="ky" HBox.hgrow="ALWAYS">
+                  <TextField fx:id="kxField1" promptText="ky" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="24.0" />
                      </font>
                      <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
-                  </TextArea>
+                  </TextField>
                </children>
             </HBox>
             <ButtonBar>
@@ -130,22 +130,22 @@
                         <Font size="30.0" />
                      </font>
                      <HBox.margin>
-                        <Insets top="14.0" />
+                        <Insets top="10.0" />
                      </HBox.margin>
                   </Label>
-                  <TextArea fx:id="thetaField" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" prefWidth="523.0" promptText="𝜃" HBox.hgrow="ALWAYS">
+                  <TextField fx:id="kxField2" promptText="𝜃" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="24.0" />
                      </font>
                      <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
-                  </TextArea>
+                  </TextField>
                </children>
             </HBox>
             <ButtonBar>
                <buttons>
-                  <Button mnemonicParsing="false" onAction="#onTurnButtonClicked" text="Применить поворот">
+                  <Button mnemonicParsing="false" onAction="#onRotateButtonClicked" text="Применить поворот">
                      <font>
                         <Font size="24.0" />
                      </font>
