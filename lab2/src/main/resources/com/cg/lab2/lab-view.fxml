@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cg.lab2.InterfaceController">
+   <children>
+      <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1400.0">
+         <children>
+            <Canvas fx:id="canvas" height="800.0" width="800.0" />
+            <VBox prefHeight="800.0" prefWidth="600.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox prefHeight="49.0" prefWidth="600.0">
+                     <children>
+                        <Label text="dx:">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="14.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="dxField" prefWidth="200.0" promptText="dx" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label text="dy:">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="dyField" prefWidth="200.0" promptText="dy" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <ButtonBar>
+                     <buttons>
+                        <Button mnemonicParsing="false" onAction="#onMoveButtonClicked" text="Перенести">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                     </buttons>
+                  </ButtonBar>
+                  <Label fx:id="centerLabel">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Label>
+                  <HBox prefHeight="49.0" prefWidth="600.0">
+                     <children>
+                        <Label text="cx:">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="cxField" prefWidth="200.0" promptText="cx" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label text="cy:">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="cyField" prefWidth="200.0" promptText="cy" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="49.0" prefWidth="600.0">
+                     <children>
+                        <Label text="kx:">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="kxField" prefWidth="200.0" promptText="kx" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label text="ky:">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="kyField" prefWidth="200.0" promptText="ky" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <ButtonBar />
+                  <HBox prefHeight="49.0" prefWidth="600.0">
+                     <children>
+                        <Label text="𝜃  :">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="thetaField" promptText="𝜃" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <ButtonBar>
+                     <buttons>
+                        <Button mnemonicParsing="false" onAction="#onRotateButtonClicked" text="Повернуть">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onResizeButtonClicked" text="Масштабировать">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                     </buttons>
+                  </ButtonBar>
+                  <ButtonBar>
+                     <VBox.margin>
+                        <Insets top="50.0" />
+                     </VBox.margin>
+                     <buttons>
+                        <Button mnemonicParsing="false" onAction="#onRewindButtonClicked" prefHeight="46.0" text="Отменить последнюю трансформацию">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                     </buttons>
+                  </ButtonBar>
+                  <ButtonBar>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                     <buttons>
+                        <Button contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onResetButtonClicked" prefHeight="46.0" text="Сброс" textAlignment="CENTER">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                     </buttons>
+                  </ButtonBar>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <TextArea fx:id="logs" editable="false" prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </TextArea>
+   </children>
+</VBox>
