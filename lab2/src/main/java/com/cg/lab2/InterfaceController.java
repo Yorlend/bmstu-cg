@@ -141,8 +141,9 @@ public class InterfaceController implements Initializable {
             operation.prepend(new Affine(cos, -sin, 0, sin, cos, 0));
             operation.prepend(new Affine(1, 0, cx, 0, 1, cy));
 
-            logs.appendText(String.format("Произведен поворот на угол " +
-                    "%.2f\n", theta));
+            logs.appendText(String.format("Произведен поворот: " +
+                    "центр (%.2f, %.2f) на угол " +
+                    "%.2f\n", cx, cy, theta));
 
             operationManager.addOperation(operation);
             renderFigure();
@@ -187,8 +188,6 @@ public class InterfaceController implements Initializable {
 
     private void renderFigure() {
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        centerLabel.setText(String.format("Центр холста: (%.2f, %.2f)", canvas.getWidth() / 2,
-                canvas.getHeight() / 2));
 
         graphicsContext.save();
         double kx = FIGURE_WIDTH / 8;
