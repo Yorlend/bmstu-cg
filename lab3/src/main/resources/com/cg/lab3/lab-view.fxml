@@ -67,16 +67,19 @@
                         <Font size="20.0" />
                      </font>
                      <HBox.margin>
-                        <Insets />
+                        <Insets top="7.0" />
                      </HBox.margin>
                   </Label>
-                  <ChoiceBox prefHeight="24.0" prefWidth="306.0" HBox.hgrow="ALWAYS" />
+                  <ChoiceBox fx:id="algChoiceBox" prefHeight="24.0" prefWidth="306.0" style="-fx-font-size: 20;" HBox.hgrow="ALWAYS" />
                   <Label text="Цвет:">
                      <font>
                         <Font size="20.0" />
                      </font>
+                     <HBox.margin>
+                        <Insets top="7.0" />
+                     </HBox.margin>
                   </Label>
-                  <ChoiceBox prefHeight="24.0" prefWidth="226.0" HBox.hgrow="ALWAYS" />
+                  <ChoiceBox fx:id="colorChoiceBox" prefHeight="24.0" prefWidth="226.0" style="-fx-font-size: 20;" HBox.hgrow="ALWAYS" />
                </children>
                <VBox.margin>
                   <Insets top="5.0" />
@@ -102,7 +105,7 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField HBox.hgrow="ALWAYS">
+                  <TextField HBox.hgrow="ALWAYS" fx:id="xStartField">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -118,7 +121,7 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField HBox.hgrow="ALWAYS">
+                  <TextField fx:id="yStartField" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -138,7 +141,7 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField HBox.hgrow="ALWAYS">
+                  <TextField HBox.hgrow="ALWAYS" fx:id="xEndField">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -151,7 +154,7 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField HBox.hgrow="ALWAYS">
+                  <TextField fx:id="yEndField" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -163,7 +166,7 @@
             </HBox>
             <ButtonBar>
                <buttons>
-                  <Button mnemonicParsing="false" text="построить отрезок">
+                  <Button mnemonicParsing="false" onAction="#onDrawLineButtonClicked" text="построить отрезок">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -178,6 +181,19 @@
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
             </Separator>
+            <ButtonBar>
+               <buttons>
+                  <Button mnemonicParsing="false" onAction="#onCleanButtonClicked" text="очистить холст">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+               </buttons>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </ButtonBar>
+            <Separator prefWidth="200.0" />
             <Label layoutX="10.0" layoutY="58.0" text="II. Исследование визуальных характеристик">
                <font>
                   <Font size="21.0" />
@@ -193,7 +209,7 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField HBox.hgrow="ALWAYS">
+                  <TextField fx:id="rField" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -209,7 +225,7 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField prefHeight="39.0" prefWidth="240.0" HBox.hgrow="ALWAYS">
+                  <TextField fx:id="quantityField" prefHeight="39.0" prefWidth="240.0" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -221,7 +237,7 @@
             </HBox>
             <ButtonBar layoutX="10.0" layoutY="192.0">
                <buttons>
-                  <Button mnemonicParsing="false" text="построить спектр">
+                  <Button mnemonicParsing="false" onAction="#onSunButtonClicked" text="построить спектр">
                      <font>
                         <Font size="20.0" />
                      </font>
