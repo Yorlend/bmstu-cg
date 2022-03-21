@@ -106,7 +106,6 @@ public class Renderer {
     public void BresenhamAA(Point start, Point end, Color color) {
 
         int I = 100;
-        /// TODO: проверять вырожденность
 
         double dx = end.getX() - start.getX();
         double dy = end.getY() - start.getY();
@@ -116,6 +115,22 @@ public class Renderer {
 
         dx = Math.abs(dx);
         dy = Math.abs(dy);
+
+        if (dx == 0) {
+            int x = start.getX();
+            int y = start.getY();
+            for (int i = 0; i < dy + 1; i++) {
+                pixelWriter.setColor(x, y, color);
+                y += sy;
+            }
+        } else if (dy == 0) {
+            int x = start.getX();
+            int y = start.getY();
+            for (int i = 0; i < dx + 1; i++) {
+                pixelWriter.setColor(x, y, color);
+                x += sx;
+            }
+        }
 
         boolean swap = dy > dx;
         if (swap) {
@@ -179,6 +194,23 @@ public class Renderer {
 
         dx = Math.abs(dx);
         dy = Math.abs(dy);
+
+        // отрисовка горизонтальных и вертикальных прямых
+        if (dx == 0) {
+            int x = start.getX();
+            int y = start.getY();
+            for (int i = 0; i < dy + 1; i++) {
+                pixelWriter.setColor(x, y, color);
+                y += sy;
+            }
+        } else if (dy == 0) {
+            int x = start.getX();
+            int y = start.getY();
+            for (int i = 0; i < dx + 1; i++) {
+                pixelWriter.setColor(x, y, color);
+                x += sx;
+            }
+        }
 
         boolean swap = dy > dx;
 

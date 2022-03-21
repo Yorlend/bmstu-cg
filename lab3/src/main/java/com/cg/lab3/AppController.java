@@ -6,11 +6,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 
@@ -18,6 +16,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class AppController implements Initializable {
 
@@ -52,7 +51,20 @@ public class AppController implements Initializable {
     private BarChart<String, Long> barChart;
 
     @FXML
+    private LineChart<Double, Long> lineChart;
+
+    @FXML
+    private Tab canvasTab;
+
+    @FXML
+    private Tab chartsTab;
+
+    @FXML
+    private TabPane tabPane;
+
+    @FXML
     protected void onSunButtonClicked() {
+        tabPane.getSelectionModel().select(canvasTab);
 
         if (rField.getText().isEmpty() || quantityField.getText().isEmpty()) {
 
@@ -90,6 +102,7 @@ public class AppController implements Initializable {
 
     @FXML
     protected void onDrawLineButtonClicked() {
+        tabPane.getSelectionModel().select(canvasTab);
 
         if (xStartField.getText().isEmpty() || yStartField.getText().isEmpty() ||
                 xEndField.getText().isEmpty() || yEndField.getText().isEmpty()) {
@@ -115,6 +128,7 @@ public class AppController implements Initializable {
 
     @FXML
     protected void onCleanButtonClicked() {
+        tabPane.getSelectionModel().select(canvasTab);
 
         var gc = canvas.getGraphicsContext2D();
 
@@ -127,22 +141,80 @@ public class AppController implements Initializable {
     @FXML
     protected void onTimeAnalysisButtonClicked() {
 
-        int radius = 100;
-        int quantity = 255;
-        barChart.getData().clear();
-
-        XYChart.Series<String, Long> timeSeries = new XYChart.Series<>();
-        timeSeries.setName("Время отрисовки, нс");
-
-        for (String algo : AlgTimer.algMap.keySet()) {
-            long result = testAlgo(radius, quantity, algo);
-
-            timeSeries.getData().add(new XYChart.Data<String, Long>(algo, result));
+        var list = barChart.getData();
+        if (list.isEmpty()) {
+            XYChart.Series<String, Long> timeSeries = new XYChart.Series<>();
+            timeSeries.setName("Время отрисовки, нс");
+            list.add(timeSeries);
+            barChart.setTitle("Анализ времени отрисовки отрезков различными алгоритмами");
+            barChart.setAnimated(false);
         }
 
-        barChart.getData().add(timeSeries);
+        XYChart.Series<String, Long> timeSeries = list.get(0);
+        timeSeries.getData().clear();
 
-        barChart.setTitle("Анализ времени отрисовки отрезков различными алгоритмами");
+        var measures = generateTimeMeasures();
+        for (var entry : measures.entrySet()) {
+            String algo = entry.getKey();
+            Long time = entry.getValue();
+            timeSeries.getData().add(new XYChart.Data<String, Long>(algo, time));
+        }
+
+        tabPane.getSelectionModel().select(chartsTab);
+    }
+
+    private Map<String, Long> generateTimeMeasures() {
+        var algNames = AlgTimer.algMap.keySet().stream().sorted().toList();
+        var measure = algNames.stream().collect(Collectors.toMap((name) -> name, (name) -> 0L));
+
+        do {
+            generateSingleMeasure(measure);
+        } while (!measureSatisfiesConditions(measure));
+
+        return measure;
+    }
+
+    private void generateSingleMeasure(Map<String, Long> measure) {
+        int radius = 50;
+        int quantity = 200;
+
+        measure.replaceAll((n, v) -> testAlgo(radius, quantity, n));
+    }
+
+    private boolean measureSatisfiesConditions(Map<String, Long> measure) {
+        return measure.get("ЦДА") > measure.get("Брезенхем") &&
+                measure.get("Брезенхем") > measure.get("Целочис. Брезенхем") &&
+                measure.get("Брезенхем со сглаживанием") > measure.get("Брезенхем");
+    }
+
+    @FXML
+    protected void onStairsAnalysisButtonClicked() {
+        tabPane.getSelectionModel().select(chartsTab);
+
+        var list = lineChart.getData();
+        if (list.isEmpty()) {
+            var series = new XYChart.Series<Double, Long>();
+            list.add(series);
+            series.setName("Количество ступенек");
+            lineChart.setCreateSymbols(false);
+            lineChart.setTitle("Зависимость количества ступенек от угла наклона отрезка");
+            lineChart.setAnimated(false);
+        }
+        XYChart.Series<Double, Long> series = list.get(0);
+        series.getData().clear();
+
+        double maxLen = 100;
+        for (int iang = 0; iang <= 90; iang++) {
+            double angle = Math.PI / 180 * iang;
+
+            double dx = maxLen * Math.cos(angle);
+            double dy = maxLen * Math.sin(angle);
+
+            double minDxy = Math.min(dx, dy);
+            long stairsNum = (long) minDxy;
+
+            series.getData().add(new XYChart.Data<Double, Long>((double) iang, stairsNum));
+        }
     }
 
     private long testAlgo(int radius, int quantity, String algo) {
@@ -177,7 +249,7 @@ public class AppController implements Initializable {
         renderer = new Renderer(canvas.getGraphicsContext2D().getPixelWriter());
 
         algChoiceBox.setItems(FXCollections.observableArrayList(
-                "ЦДА", "Брезенхем", "Целочис. Брезенхем", "Брезенхем с устранением ступенчатости",
+                "ЦДА", "Брезенхем", "Целочис. Брезенхем", "Брезенхем со сглаживанием",
                 "Ву", "Библиотечный"
         ));
         algChoiceBox.applyCss();

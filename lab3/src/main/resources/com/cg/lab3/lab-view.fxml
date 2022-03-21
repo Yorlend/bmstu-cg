@@ -20,14 +20,14 @@
 
 <HBox prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cg.lab3.AppController">
    <children>
-      <TabPane tabMaxHeight="25.0" tabMaxWidth="100.0">
+      <TabPane fx:id="tabPane" tabMaxHeight="25.0" tabMaxWidth="100.0">
          <tabs>
-            <Tab closable="false" style="-fx-font-size: 20px;" text="Холст">
+            <Tab fx:id="canvasTab" closable="false" style="-fx-font-size: 20px;" text="Холст">
                <content>
                   <Canvas fx:id="canvas" height="860.0" width="860.0" />
                </content>
             </Tab>
-          <Tab closable="false" style="-fx-font-size: 20px;" text="Графики">
+          <Tab fx:id="chartsTab" closable="false" style="-fx-font-size: 20px;" text="Графики">
                <content>
                   <VBox>
                      <children>
@@ -39,9 +39,9 @@
                             <NumberAxis side="LEFT" />
                           </yAxis>
                         </BarChart>
-                        <LineChart>
+                        <LineChart fx:id="lineChart">
                           <xAxis>
-                            <CategoryAxis side="BOTTOM" />
+                            <NumberAxis side="BOTTOM" />
                           </xAxis>
                           <yAxis>
                             <NumberAxis side="LEFT" />
@@ -259,7 +259,7 @@
             </Label>
             <ButtonBar>
                <buttons>
-                  <Button mnemonicParsing="false" text="Анализ ступенчатости">
+                  <Button mnemonicParsing="false" onAction="#onStairsAnalysisButtonClicked" text="Анализ ступенчатости">
                      <font>
                         <Font size="20.0" />
                      </font>
