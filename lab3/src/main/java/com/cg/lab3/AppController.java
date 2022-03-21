@@ -5,6 +5,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -43,7 +45,11 @@ public class AppController implements Initializable {
     @FXML
     private TextField rField;
 
-    @FXML TextField quantityField;
+    @FXML
+    private TextField quantityField;
+
+    @FXML
+    private BarChart<String, Long> barChart;
 
     @FXML
     protected void onSunButtonClicked() {
@@ -118,6 +124,54 @@ public class AppController implements Initializable {
         );
     }
 
+    @FXML
+    protected void onTimeAnalysisButtonClicked() {
+
+        int radius = 100;
+        int quantity = 255;
+        barChart.getData().clear();
+
+        XYChart.Series<String, Long> timeSeries = new XYChart.Series<>();
+        timeSeries.setName("Время отрисовки, нс");
+
+        for (String algo : AlgTimer.algMap.keySet()) {
+            long result = testAlgo(radius, quantity, algo);
+
+            timeSeries.getData().add(new XYChart.Data<String, Long>(algo, result));
+        }
+
+        barChart.getData().add(timeSeries);
+
+        barChart.setTitle("Анализ времени отрисовки отрезков различными алгоритмами");
+    }
+
+    private long testAlgo(int radius, int quantity, String algo) {
+        int xc = (int) canvas.getWidth() / 2;
+        int yc = (int) canvas.getHeight() / 2;
+
+        var center = new Point(xc, yc);
+
+        long time = 0;
+
+        double theta = 0;
+        double delta = 2 * Math.PI / quantity;
+        for (int i = 0; i < quantity; i++) {
+            double sin = Math.sin(theta);
+            double cos = Math.cos(theta);
+
+            int x = (int) (radius * cos) + xc;
+            int y = (int) (radius * sin) + yc;
+
+            time += AlgTimer.algMap.get(algo).apply(
+                    center, new Point(x, y), Color.BLACK
+            );
+
+            theta += delta;
+        }
+
+        return time / quantity;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         renderer = new Renderer(canvas.getGraphicsContext2D().getPixelWriter());
@@ -139,7 +193,7 @@ public class AppController implements Initializable {
                 "ЦДА", renderer::DDA,
                 "Брезенхем", renderer::BresenhamFloat,
                 "Целочис. Брезенхем", renderer::BresenhamInt,
-                "Брезенхем с устранением ступенчатости", renderer::BresenhamAA,
+                "Брезенхем со сглаживанием", renderer::BresenhamAA,
                 "Ву", renderer::Wu,
                 "Библиотечный", this::library
         );
