@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox prefHeight="900.0" prefWidth="1800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cg.lab4.AppController">
+   <children>
+      <TabPane fx:id="tabPane" tabMaxHeight="25.0" tabMaxWidth="100.0">
+         <tabs>
+            <Tab fx:id="canvasTab" closable="false" style="-fx-font-size: 20px;" text="Холст">
+               <content>
+                  <Canvas fx:id="canvas" height="860.0" width="860.0" />
+               </content>
+            </Tab>
+          <Tab fx:id="chartTab" closable="false" style="-fx-font-size: 20px;" text="Графики">
+               <content>
+                  <VBox>
+                     <children>
+                        <LineChart fx:id="circleChart">
+                          <xAxis>
+                            <NumberAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </LineChart>
+                        <LineChart fx:id="ellipseChart">
+                           <xAxis>
+                              <NumberAxis side="BOTTOM" />
+                           </xAxis>
+                           <yAxis>
+                              <NumberAxis side="LEFT" />
+                           </yAxis>
+                        </LineChart>
+                     </children>
+                  </VBox>
+               </content>
+          </Tab>
+         </tabs>
+      </TabPane>
+      <Separator orientation="VERTICAL" prefHeight="200.0">
+         <HBox.margin>
+            <Insets left="10.0" right="10.0" />
+         </HBox.margin>
+      </Separator>
+      <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+         <children>
+            <HBox>
+               <children>
+                  <Label text="Алгоритм:">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <ChoiceBox fx:id="algChoiceBox" prefHeight="46.0" prefWidth="402.0" style="-fx-font-size: 24;" HBox.hgrow="ALWAYS" />
+                  <Label text="Цвет:">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <ChoiceBox fx:id="colorChoiceBox" prefHeight="49.0" prefWidth="293.0" style="-fx-font-size: 24;" HBox.hgrow="ALWAYS" />
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <Label text="Координаты центра окружности/эллипса:">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Label>
+            <HBox>
+               <children>
+                  <Label text="Xс:">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField text="430" HBox.hgrow="ALWAYS" fx:id="xCenterField">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </TextField>
+                  <Label text="Yс:">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="yCenterField" text="430" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </TextField>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+            </HBox>
+            <Separator prefWidth="200.0">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+            </Separator>
+            <Label text="I. Построение одиночных окружностей/эллипсов">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Label>
+            <HBox>
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <HBox>
+                           <children>
+                              <Label text="R  :">
+                                 <font>
+                                    <Font size="26.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="rField" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <ButtonBar>
+                           <buttons>
+                              <Button mnemonicParsing="false" onAction="#onDrawCircleButtonClicked" text="построить окружность">
+                                 <font>
+                                    <Font size="26.0" />
+                                 </font>
+                              </Button>
+                           </buttons>
+                           <VBox.margin>
+                              <Insets top="85.0" />
+                           </VBox.margin>
+                        </ButtonBar>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <HBox>
+                           <children>
+                              <Label text="a  :">
+                                 <font>
+                                    <Font size="26.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="aField" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label text="b  :">
+                                 <font>
+                                    <Font size="26.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="bField" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <ButtonBar>
+                           <buttons>
+                              <Button mnemonicParsing="false" onAction="#onDrawEllipseButtonClicked" text="построить эллипс">
+                                 <font>
+                                    <Font size="26.0" />
+                                 </font>
+                              </Button>
+                           </buttons>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </ButtonBar>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <ButtonBar>
+               <buttons>
+                  <Button mnemonicParsing="false" onAction="#onCleanButtonClicked" text="очистить холст">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+               </buttons>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </ButtonBar>
+            <Separator prefWidth="200.0">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin></Separator>
+            <Label layoutX="10.0" layoutY="58.0" text="II. Построение спектра">
+               <font>
+                  <Font size="26.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Label>
+            <HBox>
+               <children>
+                  <Label text="количество фигур в спектре: ">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="50.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="quantityField" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label text="a_н:">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="aStartField" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </TextField>
+                  <Label text="da :">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="aDeltaField" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </TextField>
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label text="b_н:">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="bStartField" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </TextField>
+                  <Label text="db :">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="bDeltaField" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </TextField>
+               </children>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </HBox>
+            <ButtonBar>
+               <buttons>
+                  <Button mnemonicParsing="false" onAction="#onEllipseSpectreButtonClicked" text="построить спектр эллипсов">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+               </buttons>
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+            </ButtonBar>
+            <HBox>
+               <children>
+                  <Label text="R_н:">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="rStartField" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </TextField>
+                  <Label text="dR :">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="rDeltaField" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <ButtonBar>
+               <buttons>
+                  <Button mnemonicParsing="false" onAction="#onCircleSpectreButtonClicked" text="построить спектр окружностей">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+               </buttons>
+            </ButtonBar>
+            <Separator layoutX="10.0" layoutY="50.0" prefWidth="200.0">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="20.0" />
+               </VBox.margin>
+            </Separator>
+            <Label text="III. Исследование временных характеристик">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Label>
+            <ButtonBar>
+               <buttons>
+                  <Button mnemonicParsing="false" onAction="#onCircleTimeAnalysisButtonClicked" text="Исследовать время построения окружностей">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+               </buttons>
+            </ButtonBar>
+            <ButtonBar>
+               <buttons>
+                  <Button mnemonicParsing="false" onAction="#onEllipseTimeAnalysisButtonClicked" text="Исследовать время построения эллипсов">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+               </buttons>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </ButtonBar>
+         </children></VBox>
+   </children>
+</HBox>
