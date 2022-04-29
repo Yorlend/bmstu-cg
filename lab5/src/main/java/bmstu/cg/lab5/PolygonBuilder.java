@@ -11,20 +11,24 @@ public class PolygonBuilder {
         points.add(new Point(x, y));
     }
 
-    public void appendHorizontalPoint(int x, int y) {
+    public int appendHorizontalPoint(int x, int y) {
         if (points.isEmpty()) {
             appendPoint(x, y);
         } else {
             appendPoint(x, points.get(points.size() - 1).getY());
         }
+
+        return points.get(points.size() - 1).getY();
     }
 
-    public void appendVerticalPoint(int x, int y) {
+    public int appendVerticalPoint(int x, int y) {
         if (points.isEmpty()) {
             appendPoint(x, y);
         } else {
             appendPoint(points.get(points.size() - 1).getX(), y);
         }
+
+        return points.get(points.size() - 1).getX();
     }
 
     public void closePolygon() {

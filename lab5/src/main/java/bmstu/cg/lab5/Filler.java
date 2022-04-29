@@ -30,9 +30,9 @@ public class Filler {
 
             for (int y = line.getStart().getY(); y > line.getEnd().getY(); y--) {
                 int iX = (int) Math.round(x);
-                int step = iX > border ? -1 : 1;
+
                 if (iX < border) {
-                    for (int fillX = iX; fillX <= border; fillX++) {
+                    for (int fillX = iX + 1; fillX <= border; fillX++) {
                         invertPixel(fillX, y, color);
                     }
                 } else {
