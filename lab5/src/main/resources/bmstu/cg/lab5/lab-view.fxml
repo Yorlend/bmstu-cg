@@ -14,7 +14,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<HBox prefWidth="1700.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bmstu.cg.lab5.Controller">
+<HBox prefWidth="1800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bmstu.cg.lab5.Controller">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
          <children>
@@ -93,7 +93,7 @@
             </TableView>
          </children>
       </VBox>
-      <Canvas fx:id="canvas" height="800.0" onKeyPressed="#onKeyPressed" onMouseClicked="#onMousePressed" width="800.0" />
+      <Canvas fx:id="canvas" height="1000.0" onKeyPressed="#onKeyPressed" onMouseClicked="#onMousePressed" width="1000.0" />
       <VBox minWidth="100.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
          <children>
             <Button mnemonicParsing="false" onAction="#onFill" text="Заполнить">
