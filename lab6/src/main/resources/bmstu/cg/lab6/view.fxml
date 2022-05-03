@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<HBox prefWidth="1800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bmstu.cg.lab6.Controller">
+    <children>
+        <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+            <children>
+                <HBox>
+                    <children>
+                        <Label text="x: " textAlignment="CENTER">
+                            <font>
+                                <Font size="26.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets top="7.0" />
+                            </HBox.margin>
+                        </Label>
+                        <TextField HBox.hgrow="ALWAYS" fx:id="xField">
+                            <font>
+                                <Font size="26.0" />
+                            </font>
+                        </TextField>
+                    </children>
+                    <VBox.margin>
+                        <Insets left="5.0" top="10.0" />
+                    </VBox.margin>
+                </HBox>
+                <HBox>
+                    <children>
+                        <Label text="y: " textAlignment="CENTER">
+                            <font>
+                                <Font size="26.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets top="7.0" />
+                            </HBox.margin>
+                        </Label>
+                        <TextField fx:id="yField" HBox.hgrow="ALWAYS">
+                            <font>
+                                <Font size="26.0" />
+                            </font>
+                        </TextField>
+                    </children>
+                    <VBox.margin>
+                        <Insets left="5.0" top="10.0" />
+                    </VBox.margin>
+                </HBox>
+                <ButtonBar>
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                    <buttons>
+                        <Button mnemonicParsing="false" onAction="#onInputPoint" text="Ввести точку">
+                            <font>
+                                <Font size="26.0" />
+                            </font>
+                        </Button>
+                    </buttons>
+                </ButtonBar>
+                <ButtonBar>
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                    <buttons>
+                        <Button mnemonicParsing="false" onAction="#onClosePath" text="Замкнуть">
+                            <font>
+                                <Font size="26.0" />
+                            </font>
+                        </Button>
+                    </buttons>
+                </ButtonBar>
+                <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0" style="-fx-font-size: 26;" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn minWidth="100.0" prefWidth="238.0" resizable="false" text="X" fx:id="xCol" />
+                        <TableColumn fx:id="yCol" minWidth="0.0" prefWidth="210.0" resizable="false" text="Y" />
+                    </columns>
+                    <VBox.margin>
+                        <Insets top="30.0" />
+                    </VBox.margin>
+                </TableView>
+            </children>
+        </VBox>
+        <Canvas fx:id="canvas" height="1000.0" onKeyPressed="#onKeyPressed" onMouseClicked="#onMousePressed" width="1000.0" />
+        <VBox minWidth="100.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+            <children>
+                <Button mnemonicParsing="false" onAction="#onFill" text="Заполнить">
+                    <font>
+                        <Font size="26.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets left="125.0" top="50.0" />
+                    </VBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#onStepFill" text="Заполнить с задержкой">
+                    <font>
+                        <Font size="26.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets left="25.0" top="50.0" />
+                    </VBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#onClear" text="Очистить">
+                    <font>
+                        <Font size="26.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets left="130.0" top="50.0" />
+                    </VBox.margin>
+                </Button>
+                <ColorPicker fx:id="colorPicker" editable="true" style="-fx-font-size: 26;">
+                    <value>
+                        <Color red="0.9605262875556946" green="0.2801535129547119" blue="0.2801535129547119" />
+                    </value>
+                    <VBox.margin>
+                        <Insets left="70.0" top="50.0" />
+                    </VBox.margin>
+                </ColorPicker>
+                <Label fx:id="timeLabel1" text="Время заполения:" textAlignment="CENTER">
+                    <font>
+                        <Font size="26.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets top="50.0" />
+                    </VBox.margin>
+                </Label>
+                <Label fx:id="timeLabel" textAlignment="CENTER">
+                    <font>
+                        <Font size="26.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets left="200.0" top="10.0" />
+                    </VBox.margin>
+                </Label>
+            </children>
+        </VBox>
+    </children>
+</HBox>
