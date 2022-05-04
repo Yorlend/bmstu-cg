@@ -33,7 +33,7 @@ public class Controller implements Initializable {
     private ColorPicker colorPicker, fuzeColorPicker;
 
     @FXML
-    private RadioButton pointRadio, fuzeRadio;
+    private RadioButton pointRadio, fuzeRadio, curveRadio;
 
     @FXML
     private Label timeLabel;
@@ -119,6 +119,9 @@ public class Controller implements Initializable {
 
     @FXML
     protected void onMousePressed(MouseEvent event) {
+        if (curveRadio.isSelected() && !event.isAltDown())
+            return;
+
         int x = (int) event.getX(), y = (int) event.getY();
 
         if (event.isAltDown()) {
@@ -137,6 +140,30 @@ public class Controller implements Initializable {
         }
 
         // render lines
+        clearCanvas();
+        renderFuze();
+        renderPolyline(polygonBuilder.getResult());
+    }
+
+    @FXML
+    protected void onMouseDragged(MouseEvent event) {
+        if (!curveRadio.isSelected() || event.isAltDown())
+            return;
+
+        if (event.isPrimaryButtonDown()) {
+            polygonBuilder.appendPoint((int)event.getX(), (int)event.getY());
+            clearCanvas();
+            renderFuze();
+            renderPolyline(polygonBuilder.getResult());
+        }
+    }
+
+    @FXML
+    protected void onMouseReleased(MouseEvent event) {
+        if (!curveRadio.isSelected() || event.isAltDown())
+            return;
+
+        polygonBuilder.closePolygon();
         clearCanvas();
         renderFuze();
         renderPolyline(polygonBuilder.getResult());
