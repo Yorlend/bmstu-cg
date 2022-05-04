@@ -3,83 +3,103 @@ package bmstu.cg.lab6;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 
+import java.util.Stack;
+
 public class StepFiller {
     private final Canvas canvas;
     private int[] pixelBuffer;
     private final int BACKGROUND_COLOR = 0xFFFFFFFF;
 
     private int color;
-    private Polygon polygon;
-    private int border;
-    private int lineIndex;
-    private int endY;
-    private int y;
-    private double x;
-    private double dx;
+    private final Stack<Point> stack = new Stack<>();
 
     public StepFiller(Canvas canvas) {
         this.canvas = canvas;
     }
 
-    public void startFill(Polygon polygon, Color color) {
-        this.polygon = polygon;
+    public void startFill(Point point, Color color) {
+        this.stack.push(point);
         this.color = colorToInt(color);
-        border = polygon.getBorder();
-        lineIndex = -1;
-        goToNextLine();
         createPixelBuffer();
     }
 
     public boolean hasNext() {
-        return lineIndex < polygon.getEdges().size();
+        return !stack.isEmpty();
     }
 
     public void stepFill() {
-        int iX = (int) Math.round(x);
-        int step = iX > border ? -1 : 1;
-        if (iX < border) {
-            for (int fillX = iX; fillX <= border; fillX++) {
-                invertPixel(fillX, y, color);
-            }
-        } else {
-            for (int fillX = iX; fillX > border; fillX--) {
-                invertPixel(fillX, y, color);
-            }
-        }
-        x += dx;
-        flushPixelBuffer(y);
-        y--;
+        if (!stack.isEmpty()) {
+            var point = stack.pop();
+            int x = point.getX(), y = point.getY();
 
-        if (y <= endY) {
-            goToNextLine();
+            if (color == readPixel(x, y))
+                return;
+
+            while (x < canvas.getWidth() && readPixel(x, y) == BACKGROUND_COLOR) {
+                writePixel(x, y, color);
+                x++;
+            }
+
+            var xRight = x - 1;
+
+            x = point.getX() - 1;
+            while(x >= 0 && readPixel(x, y) == BACKGROUND_COLOR) {
+                writePixel(x, y, color);
+                x--;
+            }
+
+            var xLeft = x + 1;
+
+            if (y > 0)
+                searchFuze(xLeft, xRight, y - 1);
+            if (y < canvas.getHeight() - 1)
+                searchFuze(xLeft, xRight, y + 1);
+
+            flushPixelBuffer(y);
         }
     }
 
-    private void invertPixel(int x, int y, int color) {
+    public void searchFuze(int xLeft, int xRight, int y) {
+        int x = xLeft;
+        boolean flag;
+
+        while (x <= xRight) {
+            flag = false;
+            var pixel = readPixel(x, y);
+            while (x < xRight && pixel == BACKGROUND_COLOR) {
+                if (!flag)
+                    flag = true;
+                x++;
+                pixel = readPixel(x, y);
+            }
+
+            if (flag) {
+                if (x == xRight && pixel == BACKGROUND_COLOR)
+                    stack.push(new Point(x, y));
+                else
+                    stack.push(new Point(x - 1, y));
+            }
+
+            int xIn = x;
+
+            while (x < xRight && pixel != BACKGROUND_COLOR) {
+                x++;
+                pixel = readPixel(x, y);
+            }
+
+            if (x == xIn)
+                x++;
+        }
+    }
+
+    private void writePixel(int x, int y, int color) {
         int index = y * (int) canvas.getWidth() + x;
-        var pixel = pixelBuffer[index];
-
-        if (pixel != color) {
-            pixelBuffer[index] = color;
-        } else {
-            pixelBuffer[index] = BACKGROUND_COLOR;
-        }
+        pixelBuffer[index] = color;
     }
 
-    private void goToNextLine() {
-        var lines = polygon.getEdges();
-        do {
-            lineIndex++;
-        } while (lineIndex < lines.size() && lines.get(lineIndex).isHorizontal());
-        if (lineIndex >= lines.size())
-            return;
-
-        Line line = lines.get(lineIndex);
-        dx = line.isVertical() ? 0 : line.getDerivative();
-        x = (double) line.getStart().getX();
-
-        y = line.getStart().getY();
-        endY = line.getEnd().getY();
+    private int readPixel(int x, int y) {
+        int index = y * (int) canvas.getWidth() + x;
+        return pixelBuffer[index];
     }
 
     private void createPixelBuffer() {

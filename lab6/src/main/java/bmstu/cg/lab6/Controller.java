@@ -30,7 +30,10 @@ public class Controller implements Initializable {
     private Canvas canvas;
 
     @FXML
-    private ColorPicker colorPicker;
+    private ColorPicker colorPicker, fuzeColorPicker;
+
+    @FXML
+    private RadioButton pointRadio, fuzeRadio;
 
     @FXML
     private Label timeLabel;
@@ -60,6 +63,19 @@ public class Controller implements Initializable {
         info.showAndWait();
     }
 
+    private void renderFuze() {
+        if (fuze != null) {
+            var gc = canvas.getGraphicsContext2D();
+
+            gc.beginPath();
+
+            gc.setStroke(fuzeColorPicker.getValue());
+            gc.strokeOval(fuze.getX() - 0.5, fuze.getY() - 0.5, 3, 3);
+
+            gc.closePath();
+        }
+    }
+
     @FXML
     protected void onInputPoint() {
         try {
@@ -68,6 +84,16 @@ public class Controller implements Initializable {
             int y = (int) Double.parseDouble(yField.getText());
 
             var point = new PointModel(x, y);
+
+            if (fuzeRadio.isSelected()) {
+                fuze = new Point(x, y);
+                clearCanvas();
+
+                renderFuze();
+                renderPolyline(polygonBuilder.getResult());
+
+                return;
+            }
 
             if (points.contains(point)) {
                 formInfo("Введена существующая точка");
@@ -87,36 +113,51 @@ public class Controller implements Initializable {
     protected void onClosePath() {
         polygonBuilder.closePolygon();
         clearCanvas();
+        renderFuze();
         renderPolyline(polygonBuilder.getResult());
     }
 
     @FXML
     protected void onMousePressed(MouseEvent event) {
         int x = (int) event.getX(), y = (int) event.getY();
-        if (event.isShiftDown()) {
-            y = polygonBuilder.appendHorizontalPoint(x, y);
-        } else if (event.isControlDown()) {
-            x = polygonBuilder.appendVerticalPoint(x, y);
-        } else {
-            polygonBuilder.appendPoint(x, y);
-        }
 
-        points.add(new PointModel(x, y));
+        if (event.isAltDown()) {
+            /// Затравочный пыксел
+            fuze = new Point(x, y);
+        } else {
+            if (event.isShiftDown()) {
+                y = polygonBuilder.appendHorizontalPoint(x, y);
+            } else if (event.isControlDown()) {
+                x = polygonBuilder.appendVerticalPoint(x, y);
+            } else {
+                polygonBuilder.appendPoint(x, y);
+            }
+
+            points.add(new PointModel(x, y));
+        }
 
         // render lines
         clearCanvas();
+        renderFuze();
         renderPolyline(polygonBuilder.getResult());
     }
 
     @FXML
     protected void onFill() {
-        timeLabel.setText(filler.fill(polygonBuilder.getResult(), colorPicker.getValue()));
+        clearCanvas();
+        renderPolyline(polygonBuilder.getResult());
+
+        timeLabel.setText(filler.fill(colorPicker.getValue(),
+                fuze, fuzeColorPicker.getValue()));
     }
 
     @FXML
     protected void onStepFill() {
+        clearCanvas();
+        renderPolyline(polygonBuilder.getResult());
+        
         var stepFiller = new StepFiller(canvas);
-        stepFiller.startFill(polygonBuilder.getResult(), colorPicker.getValue());
+        stepFiller.startFill(fuze, fuzeColorPicker.getValue());
 
         var timer = new AnimationTimer() {
             @Override
@@ -137,19 +178,22 @@ public class Controller implements Initializable {
         clearCanvas();
         polygonBuilder = new PolygonBuilder();
         points.clear();
+        fuze = null;
     }
 
     public void onKeyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.C) {
             polygonBuilder.closePolygon();
             clearCanvas();
+            renderFuze();
             renderPolyline(polygonBuilder.getResult());
         } else if (event.getCode() == KeyCode.F) {
-            timeLabel.setText(filler.fill(polygonBuilder.getResult(), colorPicker.getValue()));
+//            timeLabel.setText(filler.fill(polygonBuilder.getResult(), colorPicker.getValue()));
         } else if (event.getCode() == KeyCode.Q) {
             clearCanvas();
             polygonBuilder = new PolygonBuilder();
             points.clear();
+            fuze = null;
         }
     }
 
@@ -183,6 +227,8 @@ public class Controller implements Initializable {
 
     private Outliner outliner;
     private Filler filler;
+
+    private Point fuze;
 
     private final ObservableList<PointModel> points = FXCollections.observableArrayList();
 }

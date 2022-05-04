@@ -6,18 +6,39 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<HBox prefWidth="1800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bmstu.cg.lab6.Controller">
+<HBox prefWidth="1800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bmstu.cg.lab6.Controller">
     <children>
         <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
             <children>
+            <RadioButton fx:id="pointRadio" mnemonicParsing="false" selected="true" text="вершина" VBox.vgrow="ALWAYS">
+               <font>
+                  <Font size="26.0" />
+               </font>
+               <toggleGroup>
+                  <ToggleGroup fx:id="Drawing" />
+               </toggleGroup>
+               <VBox.margin>
+                  <Insets left="20.0" top="10.0" />
+               </VBox.margin>
+            </RadioButton>
+            <RadioButton fx:id="fuzeRadio" mnemonicParsing="false" text="затравочный пиксель" toggleGroup="$Drawing" VBox.vgrow="ALWAYS">
+               <font>
+                  <Font size="26.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="20.0" top="10.0" />
+               </VBox.margin>
+            </RadioButton>
                 <HBox>
                     <children>
                         <Label text="x: " textAlignment="CENTER">
@@ -120,14 +141,38 @@
                         <Insets left="130.0" top="50.0" />
                     </VBox.margin>
                 </Button>
+            <Label fx:id="timeLabel2" text="Цвет границы:" textAlignment="CENTER">
+               <font>
+                  <Font size="26.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Label>
                 <ColorPicker fx:id="colorPicker" editable="true" style="-fx-font-size: 26;">
                     <value>
-                        <Color red="0.9605262875556946" green="0.2801535129547119" blue="0.2801535129547119" />
+                        <Color red="1.0" />
                     </value>
                     <VBox.margin>
-                        <Insets left="70.0" top="50.0" />
+                        <Insets left="70.0" top="10.0" />
                     </VBox.margin>
                 </ColorPicker>
+            <Label fx:id="timeLabel21" text="Цвет затравки:" textAlignment="CENTER">
+               <font>
+                  <Font size="26.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Label>
+            <ColorPicker fx:id="fuzeColorPicker" editable="true" style="-fx-font-size: 26;">
+               <value>
+                  <Color red="0.9200000166893005" green="0.7730998992919922" blue="0.2759999930858612" />
+               </value>
+               <VBox.margin>
+                  <Insets left="70.0" top="10.0" />
+               </VBox.margin>
+            </ColorPicker>
                 <Label fx:id="timeLabel1" text="Время заполения:" textAlignment="CENTER">
                     <font>
                         <Font size="26.0" />
