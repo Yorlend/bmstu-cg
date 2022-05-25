@@ -25,4 +25,8 @@ public class Point {
     public void setY(int y) {
         this.y = y;
     }
+
+    public Point add(Vector dir) {
+        return new Point(x + (int) dir.getX(), y + (int) dir.getY());
+    }
 }

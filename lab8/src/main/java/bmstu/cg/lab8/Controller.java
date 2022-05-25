@@ -26,6 +26,9 @@ public class Controller implements Initializable {
     private TextField xStart, yStart, xEnd, yEnd;
 
     @FXML
+    private CheckBox paraSelection;
+
+    @FXML
     private TableView<LineModel> table, cutterTable;
 
     @FXML
@@ -87,6 +90,9 @@ public class Controller implements Initializable {
     @FXML
     protected void onClearCanvas() {
         clearCanvas();
+        lines.clear();
+        cutterLines.clear();
+        cutter.clear();
     }
 
     @FXML
@@ -95,27 +101,77 @@ public class Controller implements Initializable {
     }
 
     @FXML
+    protected void onClosePath() {
+        cutter.close(cutterLines);
+
+        var line = cutter.getLast();
+        if (line != null)
+            lineRenderer.renderLine(line, cutterColorPicker.getValue());
+
+        cutter.clear();
+    }
+
+    @FXML
     protected void onMousePressed(MouseEvent event) {
 
         int x = (int) event.getX(), y = (int) event.getY();
 
         if (cutterRadio.isSelected()) {
-
-        } else {
             if (event.isShiftDown()) {
-                y = lineRenderer.appendHorizontalPoint(lines, x, y, colorPicker.getValue());
+                y = cutter.appendHorizontalPoint(cutterLines, x, y);
             } else if (event.isControlDown()) {
-                x = lineRenderer.appendVerticalPoint(lines, x, y, colorPicker.getValue());
+                x = cutter.appendVerticalPoint(cutterLines, x, y);
             } else {
-                lineRenderer.appendPoint(lines, x, y, colorPicker.getValue());
+                cutter.appendPoint(cutterLines, x, y);
             }
+
+            var line = cutter.getLast();
+            if (line != null)
+                lineRenderer.renderLine(line, cutterColorPicker.getValue());
+
+            return;
+        }
+
+        var selected = cutterTable.getSelectionModel().getSelectedItem();
+        if (selected != null && paraSelection.isSelected() && lineRenderer.nextLine()) {
+            int qx = selected.getXs();
+            int qy = selected.getYs();
+
+            int px = selected.getXe();
+            int py = selected.getYe();
+
+            var p1 = new Point(qx, qy);
+            var p2 = new Point(px, py);
+
+            var start = lineRenderer.getStart();
+            var end = new Point(x, y);
+
+            var pDir = Vector.vectorize(start, end);
+
+            var vec = Vector.direction(p1, p2);
+
+            vec = vec.multiply(pDir.dot(vec));
+
+            end = start.add(vec);
+
+            lineRenderer.renderLine(start, end, colorPicker.getValue());
+
+            lineRenderer.resetStart();
+
+            return;
+        }
+
+        if (event.isShiftDown()) {
+            y = lineRenderer.appendHorizontalPoint(lines, x, y, colorPicker.getValue());
+        } else if (event.isControlDown()) {
+            x = lineRenderer.appendVerticalPoint(lines, x, y, colorPicker.getValue());
+        } else {
+            lineRenderer.appendPoint(lines, x, y, colorPicker.getValue());
         }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         xStartCol.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         xStartCol.setCellValueFactory(new PropertyValueFactory<>("xs"));
@@ -127,11 +183,22 @@ public class Controller implements Initializable {
         yEndCol.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         yEndCol.setCellValueFactory(new PropertyValueFactory<>("ye"));
 
+        cutXStart.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        cutXStart.setCellValueFactory(new PropertyValueFactory<>("xs"));
+        cutYStart.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        cutYStart.setCellValueFactory(new PropertyValueFactory<>("ys"));
+
+        cutXEnd.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        cutXEnd.setCellValueFactory(new PropertyValueFactory<>("xe"));
+        cutYEnd.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        cutYEnd.setCellValueFactory(new PropertyValueFactory<>("ye"));
+
         lineRenderer = new LineRenderer(canvas.getGraphicsContext2D().getPixelWriter());
 
         cutter = new Cutter();
 
         table.setItems(lines);
+        cutterTable.setItems(cutterLines);
     }
 
     private void clearCanvas() {
@@ -159,4 +226,5 @@ public class Controller implements Initializable {
     private Cutter cutter;
     private LineRenderer lineRenderer;
     private final ObservableList<LineModel> lines = FXCollections.observableArrayList();
+    private final ObservableList<LineModel> cutterLines = FXCollections.observableArrayList();
 }

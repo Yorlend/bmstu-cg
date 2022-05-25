@@ -208,4 +208,16 @@ public class LineRenderer {
     public void renderLine(Point p1, Point p2, Color color) {
         renderLine(new Line(p1, p2), color);
     }
+
+    public boolean nextLine() {
+        return start != null;
+    }
+
+    public Point getStart() {
+        return start;
+    }
+
+    public void resetStart() {
+        start = null;
+    }
 }
