@@ -23,7 +23,7 @@ public class Controller implements Initializable {
     private Canvas canvas;
 
     @FXML
-    private TextField xStart, yStart, xEnd, yEnd;
+    private TextField xStart, yStart, xEnd, yEnd, cutterStart, cutterEnd;
 
     @FXML
     private CheckBox paraSelection;
@@ -42,6 +42,24 @@ public class Controller implements Initializable {
     private RadioButton cutterRadio, lineRadio;
 
     @FXML
+    protected void onInputCutter() {
+        try {
+
+            int x = (int) Double.parseDouble(cutterStart.getText());
+            int y = (int) Double.parseDouble(cutterEnd.getText());
+
+            cutter.appendPoint(cutterLines, x, y);
+
+            var line = cutter.getLast();
+            if (line != null)
+                lineRenderer.renderLine(line, cutterColorPicker.getValue());
+
+        } catch (Exception e) {
+            formError(e.getMessage());
+        }
+    }
+
+    @FXML
     protected void onInputLine() {
         try {
 
@@ -50,13 +68,16 @@ public class Controller implements Initializable {
             int xe = (int) Double.parseDouble(xEnd.getText());
             int ye = (int) Double.parseDouble(yEnd.getText());
 
-            var line = new LineModel(xs, ys, xe, ye);
+            var lineModel = new LineModel(xs, ys, xe, ye);
+            var line = new Line(xs, ys, xe, ye);
 
-            if (lines.contains(line)) {
+
+            if (lines.contains(lineModel)) {
                 formInfo("Введена существующая линия");
             } else {
-                lineRenderer.renderLine(new Line(xs, ys, xe, ye), colorPicker.getValue());
-                lines.add(line);
+                lineRenderer.renderLine(line, colorPicker.getValue());
+                lineRenderer.addLine(line);
+                lines.add(lineModel);
             }
         } catch (Exception e) {
             formError(e.getMessage());
@@ -71,18 +92,17 @@ public class Controller implements Initializable {
             var res = CyrusBeck.cutLine(line, cutter);
 
             if (res != null) {
-                lineRenderer.Wu(line, boldColorPicker.getValue());
-//                var gc = canvas.getGraphicsContext2D();
-//
-//                gc.beginPath();
-//
-//                gc.setLineWidth(3);
-//                gc.setStroke(boldColorPicker.getValue());
-//
-//                gc.moveTo(line.getStart().getX() + 0.5, line.getStart().getY() + 0.5);
-//                gc.lineTo(line.getEnd().getX() + 0.5, line.getEnd().getY() + 0.5);
-//
-//                gc.stroke();
+               var gc = canvas.getGraphicsContext2D();
+
+               gc.beginPath();
+
+               gc.setLineWidth(3);
+               gc.setStroke(boldColorPicker.getValue());
+
+               gc.moveTo(res.getStart().getX() + 0.5, res.getStart().getY() + 0.5);
+               gc.lineTo(res.getEnd().getX() + 0.5, res.getEnd().getY() + 0.5);
+
+               gc.stroke();
             }
         }
     }
@@ -102,13 +122,25 @@ public class Controller implements Initializable {
 
     @FXML
     protected void onClosePath() {
+
+        if (cutter.size() < 2) {
+            formError("Для замыкания необходимо как минимум 2 ребра.");
+            return;
+        }
+
         cutter.close(cutterLines);
 
         var line = cutter.getLast();
         if (line != null)
             lineRenderer.renderLine(line, cutterColorPicker.getValue());
 
-        cutter.clear();
+        if (cutter.selfIntersects()) {
+            formError("Отсекатель не должен самопересекаться.");
+        }
+
+        if (!cutter.isConvex()) {
+            formError("Отсекатель должен быть выпуклым.");
+        }
     }
 
     @FXML
@@ -154,9 +186,7 @@ public class Controller implements Initializable {
 
             end = start.add(vec);
 
-            lineRenderer.renderLine(start, end, colorPicker.getValue());
-
-            lineRenderer.resetStart();
+            lineRenderer.appendPoint(lines, end.getX(), end.getY(), colorPicker.getValue());
 
             return;
         }

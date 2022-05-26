@@ -107,7 +107,7 @@
                                 <Font size="26.0" />
                             </font>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#onInputLine" text="Добавить">
+                        <Button mnemonicParsing="false" onAction="#onInputLine" text="Добавить отрезок">
                             <font>
                                 <Font size="26.0" />
                             </font>
@@ -210,6 +210,48 @@
                         <Insets top="5.0" />
                     </padding>
                 </HBox>
+            <HBox>
+               <children>
+                  <Label prefHeight="31.0" prefWidth="33.0" text="X:" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="7.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="cutterStart" prefHeight="51.0" prefWidth="471.0" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </TextField>
+                  <Label text="Y:" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="7.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="cutterEnd" prefHeight="51.0" prefWidth="478.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </TextField>
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </HBox>
+            <ButtonBar>
+               <buttons>
+                  <Button mnemonicParsing="false" onAction="#onInputCutter" text="Добавить вершину отсекателя">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+               </buttons>
+            </ButtonBar>
             <HBox prefHeight="710.0" prefWidth="1014.0">
                <VBox.margin>
                   <Insets top="20.0" />
@@ -235,6 +277,11 @@
                             </TableView>
                      </children>
                   </VBox>
+                  <Separator orientation="VERTICAL" prefHeight="200.0">
+                     <HBox.margin>
+                        <Insets left="4.0" />
+                     </HBox.margin>
+                  </Separator>
                   <VBox minWidth="560.0">
                      <children>
                         <Label text="Ребра отсекателя:">

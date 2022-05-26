@@ -22,6 +22,10 @@ public class LineRenderer {
         return this.lines;
     }
 
+    public void addLine(Line line) {
+        lines.add(line);
+    }
+
     public void clearLines() {
         this.lines.clear();
     }

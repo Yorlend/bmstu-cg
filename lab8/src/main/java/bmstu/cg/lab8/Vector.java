@@ -9,6 +9,11 @@ public class Vector {
         this.y = y;
     }
 
+    public Vector(Line line) {
+        this.x = line.getEnd().getX() - line.getStart().getX();
+        this.y = line.getEnd().getY() - line.getStart().getY();
+    }
+
     public double getX() {
         return x;
     }
@@ -37,6 +42,14 @@ public class Vector {
 
     public double dot(Vector vec) {
         return x * vec.x + y * vec.y;
+    }
+
+    public double cross(Vector vec) {
+        return x * vec.y - y * vec.x;
+    }
+
+    public Vector getNormal() {
+        return (new Vector(-y, x)).normalize();
     }
 
     public Vector multiply(double n) {

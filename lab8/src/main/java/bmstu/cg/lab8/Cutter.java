@@ -122,4 +122,43 @@ public class Cutter implements Iterable<Line> {
             throw new UnsupportedOperationException("no >_<");
         }
     }
+
+    public boolean selfIntersects() {
+
+        for (int i = 0; i < size() - 1; i++) {
+            for (int j = i + 1; j < size(); j++) {
+                if (get(i).intersects(get(j)))
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isConvex() {
+        Vector vec2 = new Vector(get(0));
+        Vector vec1 = new Vector(getLast());
+
+        int crossProd = vec1.cross(vec2) > 0 ? 1 : -1;
+
+        for (int i = 1; i < size(); i++) {
+            vec1 = vec2;
+            vec2 = new Vector(get(i));
+
+            if (crossProd * vec1.cross(vec2) < 0)
+                return false;
+        }
+
+        if (crossProd < 0) { reverseCutter(); }
+
+        return true;
+    }
+
+    public void reverseCutter() {
+        for (var line : this) {
+            var start = line.getStart();
+            line.setStart(line.getEnd());
+            line.setEnd(start);
+        }
+    }
 }
